@@ -1,0 +1,11 @@
+{
+  "name": "hub-socket.io",
+  "version": "1.0.0",
+  "description": "CAPS hub-socket.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Evan Cheng",
+  "license": "MIT"
+}
