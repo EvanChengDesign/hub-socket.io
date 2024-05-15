@@ -10,17 +10,17 @@ socket.on('connect', () => {
 });
 
 socket.on('pickup', (payload) => {
-  console.log('Received pickup event', payload);
+  console.log('Received pickup event:', payload);
 
   setTimeout(() => {
-    console.log('Driver has picked up package');
+    console.log('Driver has picked up package', payload.orderId);
     socket.emit('in-transit', payload);
-  }, 1000);
+  }, 5000); // Reduced delay for better testing visibility
 
   setTimeout(() => {
-    console.log('Package has been delivered');
+    console.log('Package has been delivered', payload.orderId);
     socket.emit('delivered', payload);
-  }, 2000);
+  }, 10000);
 });
 
 socket.on('disconnect', () => {
