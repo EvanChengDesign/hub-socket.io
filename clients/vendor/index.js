@@ -11,6 +11,7 @@ socket.on('connect', () => {
 });
 
 setInterval(() => {
+  console.log('Generating new order');
   generateOrder(socket);
 }, 10000);
 

@@ -3,7 +3,6 @@
 const Chance = require('chance');
 const chance = new Chance();
 
-
 const generateOrder = (socket, payload = null) => {
   if (!payload) {
     payload = {
@@ -13,11 +12,8 @@ const generateOrder = (socket, payload = null) => {
       address: `${chance.city()}, ${chance.state()}`,
     };
   }
-  console.log('Order is ready to be picked up');
+  console.log('Order is ready to be picked up:', payload);
   socket.emit('pickup', payload);
-
-
-    
 };
 
-module.exports = {generateOrder};
+module.exports = { generateOrder };

@@ -16,21 +16,23 @@ const io = new Server(server);
 const caps = io.of('/caps');
 
 // Function to handle the 'pickup' event
-function handlePickup(payload, socket) {
-  console.log('The pickup was requested', payload.orderId);
-  // Broadcast the pickup event to all clients except the sender
-  socket.broadcast.emit('pickup', payload);
+function handlePickup(payload) {
+  console.log(`The pickup was requested: ${JSON.stringify(payload)}`);
+  // Broadcast the pickup event to all clients in the /caps namespace
+  caps.emit('pickup', payload);
 }
 
+// Function to handle the 'in-transit' event
 function handleInTransit(payload) {
   console.log(`Order ${payload.orderId} is in-transit`);
-  // Broadcast the in-transit event to all clients
+  // Broadcast the in-transit event to all clients in the /caps namespace
   caps.emit('in-transit', payload);
 }
 
+// Function to handle the 'delivered' event
 function handleDelivered(payload) {
   console.log(`Order ${payload.orderId} has been delivered`);
-  // Broadcast the delivered event to all clients
+  // Broadcast the delivered event to all clients in the /caps namespace
   caps.emit('delivered', payload);
 }
 
@@ -39,11 +41,19 @@ function handleConnection(socket) {
   console.log('A client has connected to the caps namespace');
 
   socket.on('pickup', (payload) => {
-    handlePickup(payload, socket);
+    console.log('Pickup event received:', payload);
+    handlePickup(payload);
   });
 
-  socket.on('in-transit', handleInTransit);
-  socket.on('delivered', handleDelivered);
+  socket.on('in-transit', (payload) => {
+    console.log('In-transit event received:', payload);
+    handleInTransit(payload);
+  });
+
+  socket.on('delivered', (payload) => {
+    console.log('Delivered event received:', payload);
+    handleDelivered(payload);
+  });
 }
 
 // Function to start the server
