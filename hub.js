@@ -1,9 +1,18 @@
 'use strict';
 
 require('dotenv').config();
+const http = require('http');
 const { Server } = require('socket.io');
-const io = new Server(3000);
+const express = require('express');
+const app = express();
 
+// Create an HTTP server
+const server = http.createServer(app);
+
+// Initialize Socket.IO server on the HTTP server
+const io = new Server(server);
+
+// Namespace for CAPS
 const caps = io.of('/caps');
 
 // Function to handle the 'pickup' event
@@ -43,6 +52,15 @@ function startServer() {
   caps.on('connection', handleConnection);
 }
 
+// Start the server
 startServer();
+
+// Define the port from environment variables or use 3000 as default
+const PORT = process.env.PORT || 3000;
+
+// Listen on the defined port
+server.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
 
 module.exports = { handleConnection, startServer };
