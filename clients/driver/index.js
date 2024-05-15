@@ -2,8 +2,6 @@
 
 require('dotenv').config();
 const { io } = require('socket.io-client');
-
-// Use the environment variable or fallback to localhost
 const CAPS_URL = process.env.RENDER_URL || 'http://localhost:3000/caps';
 const socket = io(CAPS_URL);
 
